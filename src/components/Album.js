@@ -27,8 +27,16 @@ class Album extends Component {
         setSong(song) {
             this.audioElement.src = song.audioSrc;
             this.setState({ currentSong: song });
-            
         }
+        handleSongClick(song) {
+            const isSameSong = this.state.currentSong === song;
+            if (this.state.isPlaying && isSameSong) {
+              this.pause();
+            } else {
+              if (!isSameSong) { this.setSong(song);}     
+              this.play();
+            }
+          }
 
     render () {
         return (
@@ -46,10 +54,9 @@ class Album extends Component {
              <col id="song-duration-column" />
             </colgroup>  
            <tbody >
-               
-            {this.state.album.songs.title}
-            {this.state.album.songs.title}
-            {this.state.album.songs.title}
+               {this.state.album.songs.map((song, index) =>
+               <tr className="song" key={index} onClick={() => this.handleSongClick(song)}/>
+               )}
            </tbody>
             </table>
         </section>
